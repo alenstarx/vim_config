@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/root/.config/mutter/sessions'
+let g:netrw_dirhist_2='/usr/include/gtk-2.0/gtk'
+let g:netrw_dirhist_3='/home/root/.local/share'
+let g:netrw_dirhist_4='/etc/xdg/autostart'
+let g:netrw_dirhist_5='/etc/resolvconf'
+let g:netrw_dirhist_6='/etc/xdg/lxsession'
+let g:netrw_dirhist_7='/etc/NetworkManager/system-connections'
