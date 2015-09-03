@@ -1,12 +1,60 @@
-" pathogen 可能造成语法高亮失效
+set nocompatible               " be iMproved  
+syntax on
+filetype off                   " required
+"filetype plugin indent off
+" let Vundle manage Vundle  
+" required!   
+"Bundle 'gmarik/vundle'  
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'fatih/vim-go'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'majutsushi/tagbar'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic'
+Plugin 'fatih/molokai'
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-pathogen'
+Plugin 'Blackrush/vim-gocode'
+Plugin 'vim-scripts/txt.vim'
+Plugin 'ervandew/supertab'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'Shougo/neocomplete.vim'
+
+call vundle#end()            " required
+filetype plugin indent on   " required
+"       /** vundle命令 **/  
+" Brief help  
+" :BundleList          - list configured bundles  
+" :BundleInstall(!)    - install(update) bundles  
+" :BundleSearch(!) foo - search(or refresh cache first) for foo   
+" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles  
+"     
+" see :h vundle for more details or wiki for FAQ   
+" NOTE: comments after Bundle command are not allowed..  
+
+"set wildignore+=doc            " should not break helptags
+set wildignore+=.git           " should not break clone
+set wildignore+=.git/*         " should not break clone
+set wildignore+=*/.git/*
+" TODO: helptags fails with this
+"set wildignore+=doc/*        " should not break clone
+"set wildignore+=*/doc/*
+"au VimEnter * BundleInstall
+
 execute pathogen#infect()
 
+set background=dark
+
 " 不要使用vi的键盘模式，而是vim自己的
-set nocompatible
+"set nocompatible
 " 语法高亮
-set syntax=on
+" syntax off
 "配色方案 
-" colorscheme peachpuff
+colorscheme peachpuff
 " 去掉输入错误的提示声音
 set noeb
 " 在处理未保存或只读文件的时候，弹出确认
@@ -107,9 +155,9 @@ endif
 "cs add ./cscope.out
 "let g:winManagerWindowLayout='FileExplorer|TagList'
 "nmap wm :WMToggle<cr>
-"" let g:winManagerWindowLayout='FileExplorer'
-"" nmap wm :WMToggle<cr>
-"" nmap tl :Tlist<cr>
+let g:winManagerWindowLayout='FileExplorer'
+nmap wm :WMToggle<cr>
+nmap tl :Tlist<cr>
 
 
 " 我的状态行显示的内容（包括文件类型和解码）
@@ -213,51 +261,36 @@ au BufRead,BufNewFile *  setfiletype txt
 "打开文件类型检测, 加了这句才可以用智能补全
 " set completeopt=longest,menu 
 " let g:AutoComplPop_Behavior = {
-\ 'c': [ {'command' : "\<C-x>\<C-o>",
-\ 'pattern' : ".",
-\ 'repeat' : 0}
-\ ]
-\}
+"\ 'c': [ {'command' : "\<C-x>\<C-o>",
+"\ 'pattern' : ".",
+"\ 'repeat' : 0}
+"\ ]
+"\}
 "
 "
 "
 
+let g:syntastic_python_python_exec = '/user/bin/python3'
+let g:syntastic_error_symbol = '✗'	"set error or warning signs
+let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_check_on_open=1
+let g:syntastic_enable_highlighting = 0
+"let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
+let g:syntastic_python_checkers=['pyflakes']
+"let g:syntastic_python_checkers = ['pylint']
+"highlight SyntasticErrorSign guifg=white guibg=black
 
-" Disable valadoc syntax highlight
-"let vala_ignore_valadoc = 1
-"
-" " Enable comment strings
-let vala_comment_strings = 1
-"
-" " Highlight space errors
-let vala_space_errors = 1
-" " Disable trailing space errors
-" "let vala_no_trail_space_error = 1
-" " Disable space-tab-space errors
-let vala_no_tab_space_error = 1
+let g:syntastic_c_include_dirs = ['/usr/include/']
+let g:syntastic_c_remove_include_errors = 1
+let g:syntastic_c_check_header = 1
 
-" " Minimum lines used for comment syncing (default 50)
-" "let vala_minlines = 120
+let g:syntastic_cpp_include_dirs = ['/usr/include/']
+let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
+let g:syntastic_enable_balloons = 1	"whether to show balloons
 
-" pathogen
-"execute pathogen#infect()
-
-
-"" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-
-" Track the engine.
-" Plugin 'SirVer/ultisnips'
-
-" Snippets are separated from the engine. Add this if you want them:
-" Plugin 'honza/vim-snippets'
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
 
 " 自动补全配置
 set completeopt=longest,menu	"让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
@@ -268,32 +301,6 @@ inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-
-""""youcompleteme  默认tab  s-tab 和自动补全冲突
-"""let g:ycm_key_list_select_completion=['<c-n>']
-""" let g:ycm_key_list_select_completion = ['<Down>']
-"""let g:ycm_key_list_previous_completion=['<c-p>']
-""" let g:ycm_key_list_previous_completion = ['<Up>']
-"let g:ycm_key_list_select_completion=['<A-n>']
-"let g:ycm_key_list_previous_completion=['<A-p>']
-"let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
-
-"let g:ycm_collect_identifiers_from_tags_files=1	" 开启 YCM 基于标签引擎
-"let g:ycm_min_num_of_chars_for_completion=2	" 从第2个键入字符就开始罗列匹配项
-"let g:ycm_cache_omnifunc=0	" 禁止缓存匹配项,每次都重新生成匹配项
-"let g:ycm_seed_identifiers_with_syntax=1	" 语法关键字补全
-"nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>	"force recomile with syntastic
-"""nnoremap <leader>lo :lopen<CR>	"open locationlist
-"""nnoremap <leader>lc :lclose<CR>	"close locationlist
-"inoremap <leader><leader> <C-x><C-o>
-"在注释输入中也能补全
-"let g:ycm_complete_in_comments = 1
-"在字符串输入中也能补全
-"let g:ycm_complete_in_strings = 1
-"注释和字符串中的文字也会被收入补全
-"let g:ycm_collect_identifiers_from_comments_and_strings = 0
-
-"nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到定义处
 
 let g:go_disable_autoinstall = 0
 let g:neocomplete#enable_at_startup = 1
@@ -326,14 +333,28 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
+
 nmap <F8> :TagbarToggle<CR>
 nmap <C-n> :NERDTreeToggle<CR>
 
 colorscheme molokai
 let g:molokai_original = 1
-let g:rehash256 = 1
+"let g:rehash256 = 1
 
-let $GOPATH = "/opt/workspace/beego"
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+let g:snipMate = {}
+let g:snipMate.scope_aliases = {}
+let g:snipMate.scope_aliases['ruby'] = 'ruby,ruby-rails,ruby-1.9'
 
 "let g:SuperTabContextDefaultCompletionType = "<c-n>"
 "let g:SuperTabDefaultCompletionType = "<c-n>"
+"
+
+let $GOPATH = "/root/workspace/golang"
+
